@@ -3,6 +3,46 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --nav-bg: #000000;
+  --nav-bg-scrolled: rgba(0, 0, 0, 0.8);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-tertiary: rgba(255, 255, 255, 0.5);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --section-bg: #000000;
+  --card-bg: rgba(255, 255, 255, 0.04);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --glow-color: rgba(255, 255, 255, 0.05);
+}
+
+:root.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --nav-bg: #000000;
+  --nav-bg-scrolled: rgba(0, 0, 0, 0.8);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-tertiary: rgba(255, 255, 255, 0.5);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --section-bg: #000000;
+  --card-bg: rgba(255, 255, 255, 0.04);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --glow-color: rgba(255, 255, 255, 0.05);
+}
+
+:root:not(.dark) {
+  --background: #ffffff;
+  --foreground: #171717;
+  --nav-bg: #ffffff;
+  --nav-bg-scrolled: rgba(255, 255, 255, 0.95);
+  --text-primary: #171717;
+  --text-secondary: rgba(23, 23, 23, 0.7);
+  --text-tertiary: rgba(23, 23, 23, 0.5);
+  --border-color: rgba(0, 0, 0, 0.1);
+  --section-bg: #ffffff;
+  --card-bg: rgba(0, 0, 0, 0.04);
+  --card-border: rgba(0, 0, 0, 0.1);
+  --glow-color: rgba(0, 0, 0, 0.05);
 }
 
 @theme inline {
@@ -12,15 +52,33 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Starfield animations (used in Hero) */
+@keyframes star-twinkle {
+  0%, 100% { opacity: var(--base-op, 0.6); }
+  50% { opacity: 1; }
+}
+
+@keyframes star-jitter {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(var(--dx, 0px), var(--dy, 0px)); }
+}
+
+.star {
+  animation-name: star-twinkle, star-jitter;
+  animation-duration: var(--twinkle, 8s), var(--jitter, 10s);
+  animation-timing-function: linear, linear;
+  animation-iteration-count: infinite, infinite;
+  animation-direction: normal, alternate;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.35), 0 0 12px rgba(255, 255, 255, 0.18);
 }
