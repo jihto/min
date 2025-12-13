@@ -3,8 +3,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { Menu, X, Search, ShoppingBag, User, Languages, ChevronDown, Sun, Moon } from 'lucide-react';
-import Link from 'next/link';
+import { Menu, X, Search, User, Languages, ChevronDown, Sun, Moon } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Navbar() {
@@ -95,7 +94,8 @@ export default function Navbar() {
   }, [isLangDropdownOpen]);
 
   const navItems = [
-    { name: t('nav.collections'), href: '#collections' },
+    { name: t('nav.home'), href: '/' },
+    { name: t('nav.projects'), href: 'projects' },
     { name: t('nav.newArrivals'), href: '#new' },
     { name: t('nav.about'), href: '#about' },
     { name: t('nav.contact'), href: '#contact' }
@@ -108,7 +108,7 @@ export default function Navbar() {
   return ( 
       <motion.nav
         style={{ opacity: navOpacity }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
           isScrolled 
             ? 'bg-[var(--nav-bg-scrolled)] backdrop-blur-md border-b border-[var(--border-color)]' 
             : 'bg-[var(--nav-bg)]'
@@ -121,7 +121,7 @@ export default function Navbar() {
               href="#"
               className="text-2xl font-light tracking-[0.2em] text-[var(--text-primary)]" 
             >
-              NASUX
+              MIN
             </motion.a>
 
             {/* Desktop Navigation */}

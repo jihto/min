@@ -17,7 +17,7 @@ export default function Footer() {
         <div className="flex flex-col gap-3">
           <div className="inline-flex items-center gap-2">
             <div className="size-7 rounded-md bg-[var(--card-bg)]" />
-            <span className="text-sm font-semibold tracking-wide text-[var(--text-primary)]">Jihto</span>
+            <span className="text-sm font-semibold tracking-wide text-[var(--text-primary)]">Min</span>
           </div>
           <p className="text-sm leading-6 text-[var(--text-tertiary)]">
             {t('footer.brand.desc')}

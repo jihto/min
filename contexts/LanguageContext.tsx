@@ -16,10 +16,11 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 const translations: Record<Language, Record<string, string>> = {
   en: {
     // Navbar
-    'nav.collections': 'Collections',
+    'nav.home': 'Home',
     'nav.newArrivals': 'New Arrivals',
     'nav.about': 'About',
     'nav.contact': 'Contact',
+    'nav.projects': "Projects",
     
     // Hero
     'hero.title': 'Solutions for web & AI businesses',
@@ -120,10 +121,12 @@ const translations: Record<Language, Record<string, string>> = {
   },
   vi: {
     // Navbar
+    'nav.home': "Trang chủˆ",
     'nav.collections': 'Bộ sưu tập',
     'nav.newArrivals': 'Hàng mới',
     'nav.about': 'Giới thiệu',
-    'nav.contact': 'Liên hệ',
+    'nav.contact': 'Liên hệ', 
+    'nav.projects': "Dự án",
     
     // Hero
     'hero.title': 'Giải pháp cho doanh nghiệp web & AI',

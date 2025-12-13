@@ -6,12 +6,11 @@ import Process from "../components/Process";
 import Testimonials from "../components/Testimonials";
 import Pricing from "../components/Pricing";
 import FAQ from "../components/FAQ";
-import CTA from "../components/CTA";
-import Footer from "../layouts/Footer";
+import CTA from "../components/CTA"; 
 
 export default function Home() {
   return (
-    <>
+    <main className="w-full overflow-x-hidden">
       <Hero />
       <Features />
       <ProductShowcase />
@@ -20,8 +19,7 @@ export default function Home() {
       <Testimonials />
       <Pricing />
       <FAQ />
-      <CTA />
-      <Footer />
-    </>
+      <CTA /> 
+    </main>
   );
 }

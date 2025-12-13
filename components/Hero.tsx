@@ -9,7 +9,15 @@ import { useLanguage } from "@/contexts/LanguageContext";
 export default function Hero() {
   const { t } = useLanguage();
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const stars = useMemo(() => generateStars(160, 42), []);
   const serviceCards = useMemo(() => {
@@ -56,10 +64,10 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-[var(--section-bg)] px-6 py-24 text-[var(--text-primary)]">
+    <section className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-[var(--section-bg)] px-4 py-12 sm:px-6 sm:py-16 md:py-24 text-[var(--text-primary)]">
       {/* Decorations: subtle radial glows */}
-      <div className="pointer-events-none absolute -top-32 -left-40 h-96 w-96 rounded-full bg-[var(--glow-color)] blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-40 -right-32 size-112 rounded-full bg-[var(--glow-color)] blur-3xl" />
+      <div className="pointer-events-none absolute -top-16 -left-20 h-48 w-48 sm:-top-32 sm:-left-40 sm:h-96 sm:w-96 rounded-full bg-[var(--glow-color)] blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-20 -right-16 h-56 w-56 sm:-bottom-40 sm:-right-32 sm:size-112 rounded-full bg-[var(--glow-color)] blur-3xl" />
 
       {/* Starfield */}
       {mounted && (
@@ -106,15 +114,15 @@ export default function Hero() {
       )}
 
       {/* Centered layout */}
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center gap-12">
+      <div className="relative z-10 flex w-full flex-col items-center gap-6 sm:gap-8 md:gap-12">
         <motion.div
-          className="flex flex-col items-center gap-8 text-center"
+          className="flex flex-col items-center gap-4 sm:gap-6 md:gap-8 text-center"
           variants={staggerParent}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
         > 
-          <motion.h1 variants={fadeInUp} className="text-balance text-5xl font-semibold tracking-tight sm:text-6xl capitalize">
+          <motion.h1 variants={fadeInUp} className="text-balance text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight capitalize px-2">
             {t('hero.title').includes('&') ? (
               <>
                 {t('hero.title').split(' & ')[0]} <br /> & {t('hero.title').split(' & ')[1]}
@@ -131,23 +139,30 @@ export default function Hero() {
           </motion.h1>  
           <motion.ul
             variants={fadeInUp}
-            className="mt-8 flex w-full max-w-6xl gap-6 flex-wrap"
+            className="mt-4 sm:mt-6 md:mt-8 flex w-full max-w-6xl gap-3 sm:gap-4 md:gap-6 flex-col sm:flex-row sm:flex-wrap"
           >
-            {serviceCards.map((card, idx) => (
-              <motion.li
-                key={card.title}
-                className="flex-1 group relative rounded-2xl border border-[var(--card-border)] px-6 py-12 size-64 text-left text-[var(--text-secondary)] backdrop-blur transition-transform duration-500 ease-out hover:-translate-y-1 hover:rotate-0 hover:text-[var(--text-primary)] bg-cover bg-center"
-                style={{ backgroundImage: `url(${HeroImage.src})` }}
-                initial={{ opacity: 0, x: card.entrance.x, y: card.entrance.y, rotate: card.rotation - 8, scale: 0.92 }}
-                whileInView={{ opacity: 1, x: 0, y: 0, rotate: card.rotation, scale: 1 }}
-                viewport={{ once: true, amount: 0.45 }}
-                transition={{ delay: idx * 0.08, type: "spring", stiffness: 180, damping: 22 }}
-                whileHover={{ y: -10, rotate: 0, scale: 1.03, transition: { type: "spring", stiffness: 260, damping: 18 } }}
-                whileTap={{ y: -2, scale: 0.97, transition: { type: "spring", stiffness: 280, damping: 20 } }}
-              >
-                <div className="pointer-events-none absolute inset-0 rounded-2xl border border-white/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-              </motion.li>
-            ))}
+            {serviceCards.map((card, idx) => {
+              // Adjust entrance animations for mobile (smaller values)
+              const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+              const mobileEntrance = { x: 0, y: 24 };
+              const entrance = isMobile ? mobileEntrance : card.entrance;
+              
+              return (
+                <motion.li
+                  key={card.title}
+                  className="w-full sm:flex-1 sm:min-w-[calc(50%-0.75rem)] md:min-w-0 group relative rounded-xl sm:rounded-2xl border border-[var(--card-border)] px-4 py-8 sm:px-6 sm:py-10 md:px-6 md:py-12 h-48 sm:h-56 md:size-64 text-left text-[var(--text-secondary)] backdrop-blur transition-transform duration-500 ease-out hover:-translate-y-1 hover:rotate-0 hover:text-[var(--text-primary)] bg-cover bg-center"
+                  style={{ backgroundImage: `url(${HeroImage.src})` }}
+                  initial={{ opacity: 0, x: entrance.x, y: entrance.y, rotate: isMobile ? 0 : card.rotation - 8, scale: 0.92 }}
+                  whileInView={{ opacity: 1, x: 0, y: 0, rotate: isMobile ? 0 : card.rotation, scale: 1 }}
+                  viewport={{ once: true, amount: 0.45 }}
+                  transition={{ delay: idx * 0.08, type: "spring", stiffness: 180, damping: 22 }}
+                  whileHover={{ y: -10, rotate: 0, scale: 1.03, transition: { type: "spring", stiffness: 260, damping: 18 } }}
+                  whileTap={{ y: -2, scale: 0.97, transition: { type: "spring", stiffness: 280, damping: 20 } }}
+                >
+                  <div className="pointer-events-none absolute inset-0 rounded-xl sm:rounded-2xl border border-white/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                </motion.li>
+              );
+            })}
           </motion.ul>
           <motion.p
             variants={fadeInUp}
