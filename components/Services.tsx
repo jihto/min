@@ -2,21 +2,17 @@
 
 import { motion } from "framer-motion";
 import { staggerParent, fadeInUp, createFloat } from "../utils/animation";
-import { useLanguage } from "@/contexts/LanguageContext";
-
 export default function Services() {
-  const { t } = useLanguage();
-  
   const services = [
     {
-      title: t('services.web.title'),
-      desc: t('services.web.desc'),
-      items: [t('services.web.items.1'), t('services.web.items.2'), t('services.web.items.3')],
+      title: 'Web Experiences',
+      desc: 'Sites and apps that are fast, accessible, and beautiful.',
+      items: ['Next.js frontends', 'Design systems', 'SEO & analytics'],
     },
     {
-      title: t('services.ai.title'),
-      desc: t('services.ai.desc'),
-      items: [t('services.ai.items.1'), t('services.ai.items.2'), t('services.ai.items.3')],
+      title: 'AI Solutions',
+      desc: 'Automations, assistants, and intelligent products.',
+      items: ['Chatbots & RAG', 'Workflow automation', 'Personalization'],
     },
   ];
   return (
@@ -32,7 +28,7 @@ export default function Services() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
         >
-          {t('services.title')}
+          Services
         </motion.h2>
 
         <motion.div

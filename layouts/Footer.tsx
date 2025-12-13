@@ -1,9 +1,6 @@
 'use client'
 
-import { useLanguage } from '@/contexts/LanguageContext';
-
 export default function Footer() {
-  const { t } = useLanguage();
   return (
     <footer className="relative w-full bg-[var(--section-bg)] px-6 py-16 text-[var(--text-primary)]">
       {/* Top divider line */}
@@ -11,67 +8,44 @@ export default function Footer() {
 
       {/* Subtle grid background */}
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,var(--text-primary)_0.04_1px,transparent_1px),linear-gradient(var(--text-primary)_0.04_1px,transparent_1px)] bg-size-[40px_40px]" />
-
       <div className="relative mx-auto grid w-full max-w-6xl grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
         {/* Brand */}
         <div className="flex flex-col gap-3">
-          <div className="inline-flex items-center gap-2">
-            <div className="size-7 rounded-md bg-[var(--card-bg)]" />
-            <span className="text-sm font-semibold tracking-wide text-[var(--text-primary)]">Min</span>
+          <div className="inline-flex items-center gap-2"> 
+            <span className="text-xl font-semibold tracking-wide text-[var(--text-primary)]">MIN</span>
           </div>
           <p className="text-sm leading-6 text-[var(--text-tertiary)]">
-            {t('footer.brand.desc')}
+            Minimal, fast, and thoughtful solutions for web and AI products.
           </p>
         </div>
 
         {/* Links */}
         <div className="grid grid-cols-2 gap-8 sm:col-span-1 lg:col-span-2">
           <div className="flex flex-col gap-3">
-            <h4 className="text-xs font-medium uppercase tracking-wider text-[var(--text-secondary)]">{t('footer.company.title')}</h4>
-            <a href="#work" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">{t('footer.company.work')}</a>
-            <a href="#services" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">{t('footer.company.services')}</a>
-            <a href="#process" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">{t('footer.company.process')}</a>
-            <a href="#pricing" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">{t('footer.company.pricing')}</a>
+            <h4 className="text-xs font-medium uppercase tracking-wider text-[var(--text-secondary)]">Company</h4>
+            <a href="#work" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">Our work</a>
+            <a href="#services" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">Services</a>
+            <a href="#process" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">Process</a>
           </div>
           <div className="flex flex-col gap-3">
-            <h4 className="text-xs font-medium uppercase tracking-wider text-[var(--text-secondary)]">{t('footer.resources.title')}</h4>
-            <a href="#faq" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">{t('footer.resources.faq')}</a>
-            <a href="#testimonials" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">{t('footer.resources.testimonials')}</a>
-            <a href="#contact" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">{t('footer.resources.contact')}</a>
-            <a href="mailto:hello@jihto.com" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">hello@jihto.com</a>
+            <h4 className="text-xs font-medium uppercase tracking-wider text-[var(--text-secondary)]">Resources</h4>
+            <a href="#faq" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">FAQ</a>
+            <a href="#testimonials" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">Testimonials</a>
+            <a href="#contact" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">Contact</a>
           </div>
         </div>
 
         {/* Newsletter */}
         <div className="flex flex-col gap-3">
-          <h4 className="text-xs font-medium uppercase tracking-wider text-[var(--text-secondary)]">{t('footer.newsletter.title')}</h4>
-          <p className="text-sm text-[var(--text-tertiary)]">{t('footer.newsletter.desc')}</p>
-          <form
-            className="relative mt-1 flex items-center gap-2"
-            onSubmit={(e) => {
-              e.preventDefault();
-            }}
-          >
-            <input
-              type="email"
-              required
-              placeholder={t('footer.newsletter.placeholder')}
-              className="w-full rounded-full border border-[var(--card-border)] bg-[var(--card-bg)] px-4 py-2.5 text-sm text-[var(--text-primary)] placeholder-[var(--text-tertiary)] outline-none ring-0 transition-colors hover:border-[var(--border-color)] focus:border-[var(--border-color)]"
-            />
-            <button
-              type="submit"
-              className="shrink-0 rounded-full bg-[var(--text-primary)] px-4 py-2 text-sm font-medium text-[var(--background)] hover:opacity-90 transition-opacity"
-            >
-              {t('footer.newsletter.button')}
-            </button>
-          </form>
-          <span className="text-[11px] text-[var(--text-tertiary)]">{t('footer.newsletter.note')}</span>
+          <h4 className="text-xs font-medium uppercase tracking-wider text-[var(--text-secondary)]">Stay in the loop</h4>
+          <p className="text-sm text-[var(--text-tertiary)]">Monthly updates on features, releases, and practical AI tips.</p>
+          <span className="text-[11px] text-[var(--text-tertiary)]">No spam. Unsubscribe anytime.</span>
         </div>
       </div>
 
       {/* Bottom bar */}
       <div className="relative mx-auto mt-12 flex w-full max-w-6xl flex-col items-center justify-between gap-4 border-t border-[var(--border-color)] pt-6 text-center text-sm text-[var(--text-tertiary)] sm:flex-row sm:text-left">
-        <div>© {new Date().getFullYear()} Jihto. {t('footer.copyright')}</div>
+        <div>© {new Date().getFullYear()} Jihto. All rights reserved.</div>
         <div className="flex items-center gap-4">
           {/* Socials */}
           <a aria-label="Twitter" href="https://x.com" className="text-[var(--text-tertiary)] transition hover:text-[var(--text-primary)]">

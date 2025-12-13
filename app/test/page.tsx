@@ -1,0 +1,25 @@
+import Hero from "../components/Hero";
+import Features from "../components/Features";
+import ProductShowcase from "../components/ProductShowcase";
+import Services from "../components/Services";
+import Process from "../components/Process";
+import Testimonials from "../components/Testimonials";
+import Pricing from "../components/Pricing";
+import FAQ from "../components/FAQ";
+import CTA from "../components/CTA"; 
+
+export default function Home() {
+  return (
+    <main className="w-full overflow-x-hidden">
+      <Hero />
+      <Features />
+      <ProductShowcase />
+      <Services />
+      <Process />
+      <Testimonials />
+      <Pricing />
+      <FAQ />
+      <CTA /> 
+    </main>
+  );
+}

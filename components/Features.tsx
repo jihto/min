@@ -2,27 +2,23 @@
 
 import { motion } from "framer-motion";
 import { staggerParent, fadeInUp, scaleIn } from "../utils/animation";
-import { useLanguage } from "@/contexts/LanguageContext";
-
 export default function Features() {
-  const { t } = useLanguage();
-  
   const features = [
     {
-      title: t('features.performance.title'),
-      desc: t('features.performance.desc'),
+      title: 'Performance-first',
+      desc: 'Fast, accessible, and optimized for Core Web Vitals.',
     },
     {
-      title: t('features.ai.title'),
-      desc: t('features.ai.desc'),
+      title: 'AI-native',
+      desc: 'Integrations for automation, personalization, and insights.',
     },
     {
-      title: t('features.design.title'),
-      desc: t('features.design.desc'),
+      title: 'Design minimalism',
+      desc: 'Clean UI that emphasizes clarity and purpose.',
     },
     {
-      title: t('features.scalable.title'),
-      desc: t('features.scalable.desc'),
+      title: 'Scalable architecture',
+      desc: 'Best practices for reliability and long-term growth.',
     },
   ];
   return (
@@ -39,7 +35,7 @@ export default function Features() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
         >
-          {t('features.title')}
+          What you get
         </motion.h2>
 
         <motion.div

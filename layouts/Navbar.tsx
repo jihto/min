@@ -1,20 +1,16 @@
 'use client';
 
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { Menu, X, Search, User, Languages, ChevronDown, Sun, Moon } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { Menu, X, Search, User, Sun, Moon } from 'lucide-react';
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
-  const langDropdownRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [theme, setTheme] = useState<string>('dark');
   const { scrollY } = useScroll();
   const navOpacity = useTransform(scrollY, [0, 100], [1, 0.95]);
-  const { language, setLanguage, t } = useLanguage();
 
   const applyTheme = (newTheme: 'light' | 'dark') => {
     const root = document.documentElement;
@@ -77,28 +73,11 @@ export default function Navbar() {
     }
   }, []);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (langDropdownRef.current && !langDropdownRef.current.contains(event.target as Node)) {
-        setIsLangDropdownOpen(false);
-      }
-    };
-
-    if (isLangDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isLangDropdownOpen]);
-
   const navItems = [
-    { name: t('nav.home'), href: '/' },
-    { name: t('nav.projects'), href: 'projects' },
-    { name: t('nav.newArrivals'), href: '#new' },
-    { name: t('nav.about'), href: '#about' },
-    { name: t('nav.contact'), href: '#contact' }
+    { name: 'Home', href: '/' },
+    { name: 'Projects', href: '/projects' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'Contact', href: '/contact' }
   ];
 
   const iconVariants = {
@@ -108,13 +87,13 @@ export default function Navbar() {
   return ( 
       <motion.nav
         style={{ opacity: navOpacity }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b max-w-full ${
           isScrolled 
             ? 'bg-[var(--nav-bg-scrolled)] backdrop-blur-md border-b border-[var(--border-color)]' 
             : 'bg-[var(--nav-bg)]'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="w-full md:max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <motion.a
@@ -153,58 +132,6 @@ export default function Navbar() {
               >
                 <Search className="w-5 h-5" />
               </motion.button>
-              <div className="relative" ref={langDropdownRef}>
-                <motion.button
-                  variants={iconVariants} 
-                  onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
-                  className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-2"
-                  aria-label="Change language"
-                  aria-expanded={isLangDropdownOpen}
-                >
-                  <Languages className="w-5 h-5" />
-                  <span className="text-sm">{language === 'en' ? 'English' : 'Tiếng Việt'}</span>
-                  <ChevronDown 
-                    className={`w-4 h-4 transition-transform duration-200 ${isLangDropdownOpen ? 'rotate-180' : ''}`} 
-                  />
-                </motion.button>
-
-                {isLangDropdownOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute right-0 mt-2 w-40 bg-[var(--nav-bg)] border border-[var(--border-color)] rounded-lg overflow-hidden shadow-lg z-50"
-                  >
-                    <button
-                      onClick={() => {
-                        setLanguage('en');
-                        setIsLangDropdownOpen(false);
-                      }}
-                      className={`w-full px-4 py-3 text-left text-sm transition-colors ${
-                        language === 'en' 
-                          ? 'bg-[var(--text-primary)]/10 text-[var(--text-primary)]' 
-                          : 'text-[var(--text-secondary)] hover:bg-[var(--text-primary)]/10 hover:text-[var(--text-primary)]'
-                      }`}
-                    >
-                      🇺🇸 English
-                    </button>
-                    <button
-                      onClick={() => {
-                        setLanguage('vi');
-                        setIsLangDropdownOpen(false);
-                      }}
-                      className={`w-full px-4 py-3 text-left text-sm transition-colors border-t border-[var(--border-color)] ${
-                        language === 'vi' 
-                          ? 'bg-[var(--text-primary)]/10 text-[var(--text-primary)]' 
-                          : 'text-[var(--text-secondary)] hover:bg-[var(--text-primary)]/10 hover:text-[var(--text-primary)]'
-                      }`}
-                    >
-                      🇻🇳 Tiếng Việt
-                    </button>
-                  </motion.div>
-                )}
-              </div>
               <motion.button
                 variants={iconVariants}
                 whileHover="hover"

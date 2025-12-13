@@ -2,26 +2,22 @@
 
 import { motion } from "framer-motion";
 import { staggerParent, fadeInUp } from "../utils/animation";
-import { useLanguage } from "@/contexts/LanguageContext";
-
 export default function Process() {
-  const { t } = useLanguage();
-  
   const steps = [
     {
-      number: t('process.step1.number'),
-      title: t('process.step1.title'),
-      description: t('process.step1.desc'),
+      number: '01',
+      title: 'Discovery',
+      description: 'We start by understanding your vision, goals, and challenges. Through collaborative discussions, we define the scope and align on outcomes.',
     },
     {
-      number: t('process.step2.number'),
-      title: t('process.step2.title'),
-      description: t('process.step2.desc'),
+      number: '02',
+      title: 'Design & Build',
+      description: 'We craft elegant solutions and bring them to life. Every detail is considered—from user experience to technical architecture.',
     },
     {
-      number: t('process.step3.number'),
-      title: t('process.step3.title'),
-      description: t('process.step3.desc'),
+      number: '03',
+      title: 'Launch & Iterate',
+      description: 'We deploy with confidence and monitor performance. Continuous refinement ensures your product evolves with your needs.',
     },
   ];
 
@@ -35,7 +31,7 @@ export default function Process() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
         >
-          {t('process.title')}
+          How we work
         </motion.h2>
 
         <motion.div

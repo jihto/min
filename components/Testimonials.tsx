@@ -2,26 +2,22 @@
 
 import { motion } from "framer-motion";
 import { staggerParent, fadeInUp, scaleIn, createFloat } from "../utils/animation";
-import { useLanguage } from "@/contexts/LanguageContext";
-
 export default function Testimonials() {
-  const { t } = useLanguage();
-  
   const testimonials = [
     {
-      quote: t('testimonials.1.quote'),
-      author: t('testimonials.1.author'),
-      role: t('testimonials.1.role'),
+      quote: 'They delivered a stunning site and automated our intake with AI.',
+      author: 'Ava M.',
+      role: 'Founder, Nimbus',
     },
     {
-      quote: t('testimonials.2.quote'),
-      author: t('testimonials.2.author'),
-      role: t('testimonials.2.role'),
+      quote: 'Performance jumped and our users love the new experience.',
+      author: 'Leo P.',
+      role: 'PM, Atlas',
     },
     {
-      quote: t('testimonials.3.quote'),
-      author: t('testimonials.3.author'),
-      role: t('testimonials.3.role'),
+      quote: 'A partner who ships quickly and cares about details.',
+      author: 'Riya S.',
+      role: 'CTO, Helix',
     },
   ];
   return (
@@ -35,7 +31,7 @@ export default function Testimonials() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
         >
-          {t('testimonials.title')}
+          What clients say
         </motion.h2>
         <motion.div
           className="grid grid-cols-1 gap-6 md:grid-cols-3"
