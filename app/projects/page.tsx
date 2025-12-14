@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Layers, Code, Palette, Zap, X, ExternalLink, Github, Sun, Moon } from 'lucide-react';
+import { ArrowRight, Layers, Code, Palette, Zap, X, ExternalLink, Github } from 'lucide-react';
+import AnimatedStarfield from '@/components/AnimatedStarfield';
 
 interface Project {
   id: number;
@@ -106,6 +107,22 @@ export default function ProjectShowcase() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
 
+  const applyTheme = (newTheme: 'light' | 'dark') => {
+    const root = document.documentElement;
+    root.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+    
+    if (newTheme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('theme', newTheme);
+    
+    setTimeout(() => {
+      root.style.transition = '';
+    }, 300);
+  };
+
   useEffect(() => {
     const getInitialTheme = (): 'light' | 'dark' => {
       try {
@@ -123,28 +140,6 @@ export default function ProjectShowcase() {
     applyTheme(initialTheme);
   }, []);
 
-  const applyTheme = (newTheme: 'light' | 'dark') => {
-    const root = document.documentElement;
-    root.style.transition = 'background-color 0.3s ease, color 0.3s ease';
-    
-    if (newTheme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-    localStorage.setItem('theme', newTheme);
-    
-    setTimeout(() => {
-      root.style.transition = '';
-    }, 300);
-  };
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-    applyTheme(newTheme);
-  };
-
   const filteredProjects = selectedCategory === "All Projects"
     ? projects
     : projects.filter(p => p.category === selectedCategory);
@@ -159,8 +154,18 @@ export default function ProjectShowcase() {
         className="relative px-6 py-20 md:py-32 overflow-hidden"
       >
         <div className="absolute inset-0 bg-gradient-to-b from-slate-100/50 to-white dark:from-slate-900/50 dark:to-black"></div>
+        <AnimatedStarfield 
+          className="dark:block hidden"
+          intensity="medium"
+          variant="dark"
+        />
+        <AnimatedStarfield 
+          className="dark:hidden block"
+          intensity="high"
+          variant="light"
+        />
         
-        <div className="relative max-w-6xl mx-auto">
+        <div className="relative z-10 max-w-6xl mx-auto">
           <motion.div
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -172,15 +177,14 @@ export default function ProjectShowcase() {
             </p>
             
             <h1 className="text-5xl md:text-7xl font-light tracking-tight text-slate-900 dark:text-white">
-              Selected
-              <br />
-              <span className="text-slate-600 dark:text-slate-300">Projects</span>
+              Selected 
+              <span className="text-slate-600 dark:text-slate-300"> Projects</span>
             </h1>
             
             <div className="max-w-2xl">
-              <p className="text-slate-600 dark:text-slate-400 text-lg leading-relaxed border-l-2 border-slate-300 dark:border-slate-700 pl-6">
+              <p className="text-slate-600 dark:text-slate-400 text-lg leading-relaxed border-l-2 border-cyan-500/30 dark:border-cyan-400/30 pl-6">
                 THE BEST WORK AT CREATING INNOVATIVE SOLUTIONS. 
-                IT'S NOT EVEN CLOSE.
+                IT&apos;S NOT EVEN CLOSE.
               </p>
             </div>
 
@@ -191,7 +195,7 @@ export default function ProjectShowcase() {
               className="flex items-center gap-3 pt-4"
             >
               <span className="text-slate-400 dark:text-slate-500 text-sm">SCROLL TO EXPLORE</span>
-              <ArrowRight className="w-4 h-4 text-slate-400 dark:text-slate-500 animate-pulse" />
+              <ArrowRight className="w-4 h-4 text-cyan-500 dark:text-cyan-400 animate-pulse" />
             </motion.div>
           </motion.div>
         </div>
@@ -209,11 +213,13 @@ export default function ProjectShowcase() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={() => setSelectedCategory(cat.name)}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full border transition-all ${
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full border transition-all duration-300 ${
                     selectedCategory === cat.name
-                      ? 'bg-slate-900 dark:bg-white text-white dark:text-black border-slate-900 dark:border-white'
-                      : 'bg-transparent text-slate-500 dark:text-slate-400 border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500'
+                      ? 'bg-cyan-600 dark:bg-cyan-500 text-white border-cyan-600 dark:border-cyan-500 shadow-lg shadow-cyan-500/20'
+                      : 'bg-transparent text-slate-500 dark:text-slate-400 border-slate-300 dark:border-slate-700 hover:border-cyan-400 dark:hover:border-cyan-500 hover:text-cyan-600 dark:hover:text-cyan-400'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -232,18 +238,23 @@ export default function ProjectShowcase() {
             layout
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
-            {filteredProjects.map((project, idx) => (
-              <motion.div
-                key={project.id}
-                layout
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ delay: idx * 0.1, duration: 0.5 }}
-                className="group cursor-pointer"
-                onClick={() => setSelectedProject(project)}
-              >
-                <div className="relative overflow-hidden rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-500">
+            <AnimatePresence mode="wait">
+              {filteredProjects.map((project, idx) => (
+                <motion.div
+                  key={project.id}
+                  layout
+                  initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9, y: -20 }}
+                  transition={{ 
+                    delay: idx * 0.05, 
+                    duration: 0.4,
+                    ease: [0.4, 0, 0.2, 1]
+                  }}
+                  className="group cursor-pointer"
+                  onClick={() => setSelectedProject(project)}
+                >
+                <div className="relative overflow-hidden rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-cyan-400/50 dark:hover:border-cyan-500/50 transition-all duration-500 group-hover:shadow-lg group-hover:shadow-cyan-500/10">
                   {/* Project Image/Placeholder */}
                   <div className={`aspect-[4/3] ${project.image} relative overflow-hidden`}>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -255,11 +266,11 @@ export default function ProjectShowcase() {
 
                     {/* Hover Arrow */}
                     <motion.div
-                      className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-white dark:bg-slate-100 flex items-center justify-center opacity-0 group-hover:opacity-100"
+                      className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-cyan-500 dark:bg-cyan-400 flex items-center justify-center opacity-0 group-hover:opacity-100 shadow-lg shadow-cyan-500/30"
                       whileHover={{ scale: 1.1 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <ArrowRight className="w-5 h-5 text-black" />
+                      <ArrowRight className="w-5 h-5 text-white" />
                     </motion.div>
                   </div>
 
@@ -271,7 +282,7 @@ export default function ProjectShowcase() {
                       </span>
                     </div>
                     
-                    <h3 className="text-xl font-light text-slate-900 dark:text-white group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors">
+                    <h3 className="text-xl font-light text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
                       {project.title}
                     </h3>
                     
@@ -281,7 +292,8 @@ export default function ProjectShowcase() {
                   </div>
                 </div>
               </motion.div>
-            ))}
+              ))}
+            </AnimatePresence>
           </motion.div>
         </div>
       </section>
@@ -356,7 +368,7 @@ export default function ProjectShowcase() {
                     {selectedProject.technologies.map((tech, idx) => (
                       <span
                         key={idx}
-                        className="px-4 py-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm border border-slate-200 dark:border-slate-700"
+                        className="px-4 py-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm border border-slate-200 dark:border-slate-700 hover:border-cyan-400 dark:hover:border-cyan-500 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors"
                       >
                         {tech}
                       </span>
@@ -371,7 +383,7 @@ export default function ProjectShowcase() {
                       href={selectedProject.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-6 py-3 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
+                      className="flex items-center gap-2 px-6 py-3 rounded-full bg-cyan-600 dark:bg-cyan-500 text-white hover:bg-cyan-700 dark:hover:bg-cyan-400 transition-colors shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/30"
                     >
                       <ExternalLink className="w-4 h-4" />
                       <span>View Live</span>
@@ -382,7 +394,7 @@ export default function ProjectShowcase() {
                       href={selectedProject.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-6 py-3 rounded-full border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-slate-400 dark:hover:border-slate-500 transition-colors"
+                      className="flex items-center gap-2 px-6 py-3 rounded-full border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-cyan-400 dark:hover:border-cyan-500 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors"
                     >
                       <Github className="w-4 h-4" />
                       <span>Source Code</span>

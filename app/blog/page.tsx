@@ -1,9 +1,10 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, BookOpen, Code, Zap, Palette, Calendar, Clock, User } from 'lucide-react';
 import Link from 'next/link';
+import AnimatedStarfield from '@/components/AnimatedStarfield';
 
 interface Blog {
   id: number;
@@ -175,8 +176,18 @@ export default function BlogPage() {
         className="relative px-6 py-20 md:py-32 overflow-hidden"
       >
         <div className="absolute inset-0 bg-gradient-to-b from-slate-100/50 to-white dark:from-slate-900/50 dark:to-black"></div>
+        <AnimatedStarfield 
+          className="dark:block hidden"
+          intensity="medium"
+          variant="dark"
+        />
+        <AnimatedStarfield 
+          className="dark:hidden block"
+          intensity="low"
+          variant="light"
+        />
         
-        <div className="relative max-w-6xl mx-auto">
+        <div className="relative z-10 max-w-6xl mx-auto">
           <motion.div
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -188,8 +199,7 @@ export default function BlogPage() {
             </p>
             
             <h1 className="text-5xl md:text-7xl font-light tracking-tight text-slate-900 dark:text-white">
-              Latest
-              <br />
+              Latest 
               <span className="text-slate-600 dark:text-slate-300">Articles</span>
             </h1>
             
@@ -225,8 +235,10 @@ export default function BlogPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={() => setSelectedCategory(cat.name)}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full border transition-all ${
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full border transition-all duration-300 ${
                     selectedCategory === cat.name
                       ? 'bg-slate-900 dark:bg-white text-white dark:text-black border-slate-900 dark:border-white'
                       : 'bg-transparent text-slate-500 dark:text-slate-400 border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500'
@@ -248,16 +260,21 @@ export default function BlogPage() {
             layout
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
-            {filteredBlogs.map((blog, idx) => (
-              <motion.div
-                key={blog.id}
-                layout
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ delay: idx * 0.1, duration: 0.5 }}
-                className="group"
-              >
+            <AnimatePresence mode="wait">
+              {filteredBlogs.map((blog, idx) => (
+                <motion.div
+                  key={blog.id}
+                  layout
+                  initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9, y: -20 }}
+                  transition={{ 
+                    delay: idx * 0.05, 
+                    duration: 0.4,
+                    ease: [0.4, 0, 0.2, 1]
+                  }}
+                  className="group"
+                >
                 <Link href={`/blog/${blog.id}`}>
                   <div className="relative overflow-hidden rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-500 h-full flex flex-col cursor-pointer">
                     {/* Blog Image/Placeholder */}
@@ -314,7 +331,8 @@ export default function BlogPage() {
                   </div>
                 </Link>
               </motion.div>
-            ))}
+              ))}
+            </AnimatePresence>
           </motion.div>
         </div>
       </section>

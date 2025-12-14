@@ -264,7 +264,7 @@ export default function ProjectsShowcase() {
                                 </button>
                             </div>
                             <Link
-                                href={currentProject.link || '#'}
+                                href={`/projects/${currentProject.id}`}
                                 className="bg-cyan-600 text-white px-6 py-2 flex items-center gap-2 rounded-md text-xs font-semibold hover:from-cyan-500 hover:to-purple-500 transition-all shadow-lg shadow-cyan-900/20 hover:shadow-cyan-900/40 hover:scale-105"
                             >
                                 View Details <ExternalLink size={16} />
